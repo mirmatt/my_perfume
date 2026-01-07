@@ -1,14 +1,23 @@
 import { SignInAuthScreen } from '@firebase-oss/ui-react';
+import { useNavigate } from '@tanstack/react-router';
 import { signInWithPopup } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth/web-extension';
 import { Shield } from 'lucide-react';
 
 import { firebaseAuth } from '@/config/firebase.config';
 
-export const App = () => {
+export const Login = () => {
+    const navigate = useNavigate({ from: '/' });
+
     return (
         <div className="mt-[10%]">
-            <SignInAuthScreen onSignIn={(usr) => console.log(usr)}></SignInAuthScreen>
+            <SignInAuthScreen
+                onSignIn={() => {
+                    navigate({
+                        to: '/home',
+                    });
+                }}
+            ></SignInAuthScreen>
             <Shield
                 className="mx-auto mt-3 cursor-pointer"
                 onClick={async () => {

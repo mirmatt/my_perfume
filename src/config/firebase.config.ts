@@ -1,10 +1,4 @@
-import {
-    initializeUI,
-    oneTapSignIn,
-    providerPopupStrategy,
-    providerRedirectStrategy,
-    signInWithProvider,
-} from '@firebase-oss/ui-core';
+import { initializeUI, oneTapSignIn, providerPopupStrategy } from '@firebase-oss/ui-core';
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
@@ -29,7 +23,6 @@ export const firebaseAnalytics = getAnalytics(app);
 export const firebaseUi = initializeUI({
     app,
     behaviors: [
-        // providerRedirectStrategy(),
         providerPopupStrategy(),
         oneTapSignIn({
             clientId: '679746221846-sep17ohmuikrqqg4hbpnmgt6tk6hapjf.apps.googleusercontent.com',

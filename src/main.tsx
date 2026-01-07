@@ -4,13 +4,15 @@ import ReactDOM from 'react-dom/client';
 import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 
-import { firebaseUi } from '@/config/firebase.config';
+import { firebaseAuth, firebaseUi } from '@/config/firebase.config';
 import { routeTree } from '@/pages/routes';
 import '@/styles.css';
 
 const router = createRouter({
     routeTree,
-    context: {},
+    context: {
+        auth: undefined,
+    },
     defaultPreload: 'intent',
     scrollRestoration: true,
     defaultStructuralSharing: true,
@@ -29,7 +31,12 @@ if (rootElement && !rootElement.innerHTML) {
     root.render(
         <StrictMode>
             <FirebaseUIProvider ui={firebaseUi}>
-                <RouterProvider router={router} />
+                <RouterProvider
+                    router={router}
+                    context={{
+                        auth: firebaseAuth,
+                    }}
+                />
             </FirebaseUIProvider>
         </StrictMode>,
     );

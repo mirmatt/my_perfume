@@ -1,10 +1,15 @@
-import { Outlet, createRootRoute, createRoute } from '@tanstack/react-router';
+import { Outlet, createRootRouteWithContext, createRoute, redirect } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+import type { Auth } from 'firebase/auth';
 
-import { App } from '@/pages/App';
 import { Home } from '@/pages/Home';
+import { Login } from '@/pages/Login';
 
-const rootRoute = createRootRoute({
+interface AuthContext {
+    auth: Auth | undefined;
+}
+
+const rootRoute = createRootRouteWithContext<AuthContext>()({
     component: () => (
         <>
             <Outlet />
@@ -16,13 +21,25 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/',
-    component: App,
+    component: Login,
+    context: undefined,
 });
 
 const homeRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/home',
     component: Home,
+    context: undefined,
+    beforeLoad: ({ context, location }) => {
+        if (!context.auth) {
+            throw redirect({
+                to: '/',
+                search: {
+                    redirect: location.href,
+                },
+            });
+        }
+    },
 });
 
 export const routeTree = rootRoute.addChildren([indexRoute, homeRoute]);

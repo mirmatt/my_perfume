@@ -1,3 +1,5 @@
+import { useRouteContext } from '@tanstack/react-router';
+
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,6 +12,8 @@ import {
 } from '@/components/ui/dialog';
 
 export const Home = () => {
+    const auth = useRouteContext({ from: '/home' });
+
     return (
         <div>
             <Header />
